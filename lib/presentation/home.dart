@@ -17,6 +17,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final globalKey = GlobalKey();
     final notifier = ref.watch(drawStateNotifierProvider.notifier);
 
     return Scaffold(
@@ -32,7 +33,7 @@ class HomePage extends ConsumerWidget {
             const Text('だろ？', style: _textStyle),
             const SizedBox(height: 30),
             //
-            const NumberCard(),
+            NumberCard(globalKey: globalKey),
             //
             const SizedBox(height: 30),
             Row(
@@ -47,7 +48,7 @@ class HomePage extends ConsumerWidget {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => notifier.widgetToImage(globalKey),
                   child: const Text('判定'),
                 ),
               ],

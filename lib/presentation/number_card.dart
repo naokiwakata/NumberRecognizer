@@ -5,8 +5,12 @@ import '../controller/draw_controller.dart';
 import 'signature.dart';
 
 class NumberCard extends ConsumerWidget {
-  const NumberCard({Key? key}) : super(key: key);
+  const NumberCard({
+    Key? key,
+    required this.globalKey,
+  }) : super(key: key);
 
+  final GlobalKey globalKey;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(drawStateNotifierProvider);
@@ -33,11 +37,15 @@ class NumberCard extends ConsumerWidget {
         onPanEnd: (details) {
           notifier.endPaint();
         },
-        child: Card(
-          elevation: 10,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: CustomPaint(painter: Signature(state, context)),
+        // Widget画像化の記事（https://zenn.dev/pressedkonbu/books/flutter-reverse-lookup-dictionary/viewer/011-widget-to-image）
+        child: RepaintBoundary(
+          key: globalKey,
+          child: Card(
+            elevation: 10,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: CustomPaint(painter: Signature(state, context)),
+          ),
         ),
       ),
     );

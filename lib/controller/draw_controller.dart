@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../entity/draw_state.dart';
@@ -53,4 +56,17 @@ class DrawStateNotifier extends StateNotifier<DrawState> {
 
   // 描画終了
   void endPaint() => state = state.copyWith(isDrag: false);
+
+  // Widgetを画像化
+  Future<void> widgetToImage(GlobalKey globalKey) async {
+    final boundary =
+        globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    if (boundary == null) {
+      return;
+    }
+    final image = await boundary.toImage();
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    final bytes = byteData?.buffer.asUint8List();
+    print(bytes);
+  }
 }
