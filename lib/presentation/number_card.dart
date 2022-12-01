@@ -11,10 +11,12 @@ class NumberCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(drawStateNotifierProvider);
     final notifier = ref.watch(drawStateNotifierProvider.notifier);
+    const width = 380.0;
+    const height = 380.0;
 
     return SizedBox(
-      width: 300,
-      height: 500,
+      width: width,
+      height: height,
       child: GestureDetector(
         onPanStart: (details) {
           notifier.addPaint(details.localPosition);
@@ -22,8 +24,8 @@ class NumberCard extends ConsumerWidget {
         onPanUpdate: (details) {
           notifier.updatePaint(
             getPosition(
-              300,
-              500,
+              width,
+              height,
               details.localPosition,
             ),
           );

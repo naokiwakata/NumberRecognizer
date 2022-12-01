@@ -12,17 +12,6 @@ final drawStateNotifierProvider =
 class DrawStateNotifier extends StateNotifier<DrawState> {
   DrawStateNotifier() : super(DrawState());
 
-  void undo() {
-    // ひとつ戻る
-    if (state.isDrag) {
-      return;
-    }
-  }
-
-  void redo() {
-    // ひとつ進む
-  }
-
   void clear() {
     // 全ての要素を空にする
     if (!state.isDrag) {
