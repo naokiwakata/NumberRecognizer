@@ -1,0 +1,37 @@
+
+{
+  // editor
+  "editor.defaultFormatter": "Dart-Code.dart-code",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.guides.bracketPairs": true,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.smoothScrolling": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  // dart
+  "dart.previewFlutterUiGuides": false,
+  "dart.previewFlutterUiGuidesCustomTracking": true,
+  "dart.closingLabels": false,
+  "dart.hotReloadOnSave": "manual",
+  // files
+  "files.autoSave": "onFocusChange",
+  // Code Spell Checker のアラート除外ワード（https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker）
+  "cSpell.words": [
+
+  ],
+  // 自動生成系ファイルのネスト設定
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "pubspec.yaml": ".flutter-plugins, .packages, .dart_tool, .flutter-plugins-dependencies, .metadata, .packages, pubspec.lock, build.yaml, analysis_options.yaml, all_lint_rules.yaml",
+    ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
+    "readme.*": "authors, backers.md, changelog*, citation*, code_of_conduct.md, codeowners, contributing.md, contributors, copying, credits, governance.md, history.md, license*, maintainers, readme*, security.md, sponsors.md",
+    "*.dart": "$(capture).g.dart, $(capture).freezed.dart",
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+}

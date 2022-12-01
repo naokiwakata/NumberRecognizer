@@ -1,0 +1,28 @@
+name: digit_recognition
+description: A new Flutter project.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.18.4
+  freezed: ^2.0.3+1
+  freezed_annotation: ^2.0.3
+  hooks_riverpod: ^1.0.4 
+  json_annotation: ^4.7.0
+ 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  build_runner: ^2.1.11
+  json_serializable: ^6.2.0
+
+flutter:
+  uses-material-design: true
