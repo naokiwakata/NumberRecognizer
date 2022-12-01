@@ -20,7 +20,13 @@ class NumberCard extends ConsumerWidget {
           notifier.addPaint(details.localPosition);
         },
         onPanUpdate: (details) {
-          notifier.updatePaint(details.localPosition);
+          notifier.updatePaint(
+            getPosition(
+              300,
+              500,
+              details.localPosition,
+            ),
+          );
         },
         onPanEnd: (details) {
           notifier.endPaint();
@@ -34,4 +40,25 @@ class NumberCard extends ConsumerWidget {
       ),
     );
   }
+}
+
+// ポジションの取得
+Offset getPosition(double width, double height, Offset localPosition) {
+  double dx;
+  double dy;
+  if (localPosition.dx < 0) {
+    dx = 0;
+  } else if (localPosition.dx > width) {
+    dx = width;
+  } else {
+    dx = localPosition.dx;
+  }
+  if (localPosition.dy < 0) {
+    dy = 0;
+  } else if (localPosition.dy > height) {
+    dy = height;
+  } else {
+    dy = localPosition.dy;
+  }
+  return Offset(dx, dy);
 }
