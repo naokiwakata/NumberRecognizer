@@ -29,7 +29,7 @@ class HomePage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('あなたが書いた数字は', style: _textStyle),
+            const Text('おめえが書いた数字は', style: _textStyle),
             Text(state.predictedNumber.toString(), style: _numberStyle),
             const Text('だろ？', style: _textStyle),
             const SizedBox(height: 30),

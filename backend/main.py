@@ -17,7 +17,8 @@ def recognizeNumber():
     img_binary = base64.b64decode(post_img)
     img_array = np.asarray(bytearray(img_binary), dtype=np.uint8)
     img = cv2.imdecode(img_array, 1)
-    img = img[20: img.shape[0]-20, 20: img.shape[1]-20]  # トリミング
+    # トリミング
+    img = img[20: img.shape[0]-20, 20: img.shape[1]-20] 
     cv2.imwrite('original.jpg', img)
 
     # 色反転
