@@ -1,17 +1,13 @@
-# digit_recognition
+# Flutter×Pythonの手書き数字認識アプリ
 
-A new Flutter project.
+https://user-images.githubusercontent.com/65523426/205490829-52081bc5-eae7-4916-8752-81a4fabcc168.mov
 
-## Getting Started
+# 　実装
 
-This project is a starting point for a Flutter application.
+## Flutter
+- [Widgetの画像化](https://zenn.dev/pressedkonbu/books/flutter-reverse-lookup-dictionary/viewer/011-widget-to-image)
+- [Flutterで手書きを実装する](https://qiita.com/tigeeer/items/efa4ce8a4025bbda607b)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# NumberRecognizer
+## Python
+- Flask
+- [NewralNetworkConsole](https://dl.sony.com/console/#/sampleProject)による[MNISTデータセット](https://atmarkit.itmedia.co.jp/ait/articles/2001/22/news012.html)を学習したモデルを使用
