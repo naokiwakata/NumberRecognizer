@@ -1,13 +1,13 @@
-import 'package:digit_recognition/presentation/number_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../controller/draw_controller.dart';
+import 'number_card.dart';
 
 const _textStyle = TextStyle(
   fontSize: 30,
 );
-const _figureStyle = TextStyle(
+const _numberStyle = TextStyle(
   fontSize: 50,
   fontWeight: FontWeight.bold,
 );
@@ -19,6 +19,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final globalKey = GlobalKey();
     final notifier = ref.watch(drawStateNotifierProvider.notifier);
+    final state = ref.watch(drawStateNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +30,7 @@ class HomePage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('あなたが書いた数字は', style: _textStyle),
-            const Text('9', style: _figureStyle),
+            Text(state.predictedNumber.toString(), style: _numberStyle),
             const Text('だろ？', style: _textStyle),
             const SizedBox(height: 30),
             //
@@ -48,7 +49,7 @@ class HomePage extends ConsumerWidget {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () => notifier.widgetToImage(globalKey),
+                  onPressed: () => notifier.recognizeNumber(globalKey),
                   child: const Text('判定'),
                 ),
               ],

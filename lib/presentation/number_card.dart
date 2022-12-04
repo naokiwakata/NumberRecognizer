@@ -42,8 +42,8 @@ class NumberCard extends ConsumerWidget {
           key: globalKey,
           child: Card(
             elevation: 10,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            // shape:
+            //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: CustomPaint(painter: Signature(state, context)),
           ),
         ),

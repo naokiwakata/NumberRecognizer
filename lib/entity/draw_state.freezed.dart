@@ -19,6 +19,7 @@ mixin _$DrawState {
   List<Line> get lineList => throw _privateConstructorUsedError;
   List<Line> get undoList => throw _privateConstructorUsedError;
   bool get isDrag => throw _privateConstructorUsedError;
+  int get predictedNumber => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DrawStateCopyWith<DrawState> get copyWith =>
@@ -30,7 +31,11 @@ abstract class $DrawStateCopyWith<$Res> {
   factory $DrawStateCopyWith(DrawState value, $Res Function(DrawState) then) =
       _$DrawStateCopyWithImpl<$Res, DrawState>;
   @useResult
-  $Res call({List<Line> lineList, List<Line> undoList, bool isDrag});
+  $Res call(
+      {List<Line> lineList,
+      List<Line> undoList,
+      bool isDrag,
+      int predictedNumber});
 }
 
 /// @nodoc
@@ -49,6 +54,7 @@ class _$DrawStateCopyWithImpl<$Res, $Val extends DrawState>
     Object? lineList = null,
     Object? undoList = null,
     Object? isDrag = null,
+    Object? predictedNumber = null,
   }) {
     return _then(_value.copyWith(
       lineList: null == lineList
@@ -63,6 +69,10 @@ class _$DrawStateCopyWithImpl<$Res, $Val extends DrawState>
           ? _value.isDrag
           : isDrag // ignore: cast_nullable_to_non_nullable
               as bool,
+      predictedNumber: null == predictedNumber
+          ? _value.predictedNumber
+          : predictedNumber // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -74,7 +84,11 @@ abstract class _$$_DrawStateCopyWith<$Res> implements $DrawStateCopyWith<$Res> {
       __$$_DrawStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Line> lineList, List<Line> undoList, bool isDrag});
+  $Res call(
+      {List<Line> lineList,
+      List<Line> undoList,
+      bool isDrag,
+      int predictedNumber});
 }
 
 /// @nodoc
@@ -91,6 +105,7 @@ class __$$_DrawStateCopyWithImpl<$Res>
     Object? lineList = null,
     Object? undoList = null,
     Object? isDrag = null,
+    Object? predictedNumber = null,
   }) {
     return _then(_$_DrawState(
       lineList: null == lineList
@@ -105,6 +120,10 @@ class __$$_DrawStateCopyWithImpl<$Res>
           ? _value.isDrag
           : isDrag // ignore: cast_nullable_to_non_nullable
               as bool,
+      predictedNumber: null == predictedNumber
+          ? _value.predictedNumber
+          : predictedNumber // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -115,7 +134,8 @@ class _$_DrawState implements _DrawState {
   _$_DrawState(
       {final List<Line> lineList = const <Line>[],
       final List<Line> undoList = const <Line>[],
-      this.isDrag = false})
+      this.isDrag = false,
+      this.predictedNumber = 0})
       : _lineList = lineList,
         _undoList = undoList;
 
@@ -140,10 +160,13 @@ class _$_DrawState implements _DrawState {
   @override
   @JsonKey()
   final bool isDrag;
+  @override
+  @JsonKey()
+  final int predictedNumber;
 
   @override
   String toString() {
-    return 'DrawState(lineList: $lineList, undoList: $undoList, isDrag: $isDrag)';
+    return 'DrawState(lineList: $lineList, undoList: $undoList, isDrag: $isDrag, predictedNumber: $predictedNumber)';
   }
 
   @override
@@ -153,7 +176,9 @@ class _$_DrawState implements _DrawState {
             other is _$_DrawState &&
             const DeepCollectionEquality().equals(other._lineList, _lineList) &&
             const DeepCollectionEquality().equals(other._undoList, _undoList) &&
-            (identical(other.isDrag, isDrag) || other.isDrag == isDrag));
+            (identical(other.isDrag, isDrag) || other.isDrag == isDrag) &&
+            (identical(other.predictedNumber, predictedNumber) ||
+                other.predictedNumber == predictedNumber));
   }
 
   @override
@@ -161,7 +186,8 @@ class _$_DrawState implements _DrawState {
       runtimeType,
       const DeepCollectionEquality().hash(_lineList),
       const DeepCollectionEquality().hash(_undoList),
-      isDrag);
+      isDrag,
+      predictedNumber);
 
   @JsonKey(ignore: true)
   @override
@@ -174,7 +200,8 @@ abstract class _DrawState implements DrawState {
   factory _DrawState(
       {final List<Line> lineList,
       final List<Line> undoList,
-      final bool isDrag}) = _$_DrawState;
+      final bool isDrag,
+      final int predictedNumber}) = _$_DrawState;
 
   @override
   List<Line> get lineList;
@@ -182,6 +209,8 @@ abstract class _DrawState implements DrawState {
   List<Line> get undoList;
   @override
   bool get isDrag;
+  @override
+  int get predictedNumber;
   @override
   @JsonKey(ignore: true)
   _$$_DrawStateCopyWith<_$_DrawState> get copyWith =>

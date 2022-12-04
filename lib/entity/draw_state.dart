@@ -9,5 +9,6 @@ class DrawState with _$DrawState {
     @Default(<Line>[]) List<Line> lineList,
     @Default(<Line>[]) List<Line> undoList,
     @Default(false) bool isDrag,
+    @Default(0) int predictedNumber,
   }) = _DrawState;
 }

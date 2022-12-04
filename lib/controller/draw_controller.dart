@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import '../entity/draw_state.dart';
 import '../entity/line.dart';
@@ -15,6 +18,7 @@ final drawStateNotifierProvider =
 class DrawStateNotifier extends StateNotifier<DrawState> {
   DrawStateNotifier() : super(DrawState());
 
+  // 数字をクリアする
   void clear() {
     // 全ての要素を空にする
     if (!state.isDrag) {
@@ -58,15 +62,38 @@ class DrawStateNotifier extends StateNotifier<DrawState> {
   void endPaint() => state = state.copyWith(isDrag: false);
 
   // Widgetを画像化
-  Future<void> widgetToImage(GlobalKey globalKey) async {
+  Future<Uint8List?> widgetToImage(GlobalKey globalKey) async {
     final boundary =
         globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     if (boundary == null) {
-      return;
+      return null;
     }
     final image = await boundary.toImage();
     final byteData = await image.toByteData(format: ImageByteFormat.png);
     final bytes = byteData?.buffer.asUint8List();
-    print(bytes);
+    return bytes;
+  }
+
+  // 画像をPython側に送り数字を判別
+  Future<void> recognizeNumber(GlobalKey globalKey) async {
+    final img = await widgetToImage(globalKey);
+    if (img != null) {
+      final base64Image = base64Encode(img.toList());
+      final url = Uri.parse('http://127.0.0.1:5000/recognize_number');
+      final headers = {'content-type': 'application/json'};
+
+      final body = json.encode({
+        'post_img': base64Image,
+      });
+      final response = await http.post(url, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final predictedNumber = data['result'];
+        state = state.copyWith(predictedNumber: predictedNumber);
+        print('予測結果は $predictedNumber} じゃけえ');
+      } else {
+        print(response.statusCode);
+      }
+    }
   }
 }

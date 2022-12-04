@@ -10,12 +10,12 @@ class Signature extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const strokeWigth = 12.0;
+    const strokeWidth = 12.0;
 
     final paint = Paint()
       ..color = Colors.black
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = strokeWigth;
+      ..strokeWidth = strokeWidth;
 
     for (final lines in state.lineList) {
       final points = lines.offsetList;
@@ -24,8 +24,8 @@ class Signature extends CustomPainter {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromCenter(
-              center: points[0], width: strokeWigth, height: strokeWigth),
-          const Radius.circular(strokeWigth),
+              center: points[0], width: strokeWidth, height: strokeWidth),
+          const Radius.circular(strokeWidth),
         ),
         paint,
       );
