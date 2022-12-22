@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:digit_recognition/controller/state_providers.dart';
 import 'package:digit_recognition/view/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -79,25 +80,34 @@ class DrawStateNotifier extends StateNotifier<DrawState> {
 
   // 画像をPython側に送り数字を判別
   Future<void> recognizeNumber() async {
-    final key = ref.watch(widgetToImageKeyProvider);
-    final img = await widgetToImage(key);
-    if (img != null) {
-      final base64Image = base64Encode(img.toList());
-      final url = Uri.parse('http://127.0.0.1:5000/recognize_number');
-      final headers = {'content-type': 'application/json'};
+    final notifier = ref.read(recognizeStateProvider.notifier);
 
-      final body = json.encode({
-        'post_img': base64Image,
-      });
-      final response = await http.post(url, headers: headers, body: body);
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final predictedNumber = data['result'];
-        state = state.copyWith(predictedNumber: predictedNumber);
-        print('予測結果は $predictedNumber} じゃけえ');
-      } else {
-        print(response.statusCode);
+    // 判別結果待ち（ローディング中）にする
+    notifier.state = const AsyncValue.loading();
+
+    // 判別を実行
+    // guardメソッドについて（https://zenn.dev/shintykt/articles/f9948ac00c7296）
+    notifier.state = await AsyncValue.guard(() async {
+      final key = ref.watch(widgetToImageKeyProvider);
+      final img = await widgetToImage(key);
+      if (img != null) {
+        final base64Image = base64Encode(img.toList());
+        final url = Uri.parse('http://127.0.0.1:5000/recognize_number');
+        final headers = {'content-type': 'application/json'};
+
+        final body = json.encode({
+          'post_img': base64Image,
+        });
+        final response = await http.post(url, headers: headers, body: body);
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
+          final predictedNumber = data['result'];
+          state = state.copyWith(predictedNumber: predictedNumber);
+          debugPrint('予測結果は $predictedNumber} じゃけえ');
+        } else {
+          debugPrint(response.statusCode.toString());
+        }
       }
-    }
+    });
   }
 }

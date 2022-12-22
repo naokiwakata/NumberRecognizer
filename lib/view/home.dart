@@ -1,3 +1,4 @@
+import 'package:digit_recognition/controller/state_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -14,9 +15,8 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final key = ref.watch(widgetToImageKeyProvider);
-    final notifier = ref.watch(drawStateNotifierProvider.notifier);
-    final state = ref.watch(drawStateNotifierProvider);
+    final drawStateNotifier = ref.watch(drawStateNotifierProvider.notifier);
+    final drawState = ref.watch(drawStateNotifierProvider);
 
     const textStyle = TextStyle(
       fontSize: 30,
@@ -26,6 +26,34 @@ class HomePage extends ConsumerWidget {
       fontWeight: FontWeight.bold,
     );
 
+    // 判別状態をハンドリング
+    ref.listen<AsyncValue<void>>(recognizeStateProvider,
+        ((previous, next) async {
+      if (next.isLoading) {
+        // ローディング開始
+        ref.watch(loadingStateProvider.notifier).update((state) => true);
+        return;
+      }
+
+      next.when(data: (_) {
+        // ローディング終了
+        ref.watch(loadingStateProvider.notifier).update((state) => false);
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("判別終了！"),
+        ));
+      }, error: (e, st) {
+        // ローディング終了
+        ref.watch(loadingStateProvider.notifier).update((state) => false);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("エラーだよ。失敗したみたい。"),
+        ));
+      }, loading: () {
+        // ローディング開始
+        ref.watch(loadingStateProvider.notifier).update((state) => true);
+      });
+    }));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("数字を判定するで"),
@@ -34,9 +62,9 @@ class HomePage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('おめえが書いた数字は', style: textStyle),
-            Text(state.predictedNumber.toString(), style: numberStyle),
-            const Text('だろ？', style: textStyle),
+            const Text('あなだが書いた数字は', style: textStyle),
+            Text(drawState.predictedNumber.toString(), style: numberStyle),
+            const Text('でしょ？？そうだよね？？', style: textStyle),
             const SizedBox(height: 30),
             //
             const NumberCard(),
@@ -46,7 +74,7 @@ class HomePage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () => notifier.clear(),
+                  onPressed: () => drawStateNotifier.clear(),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.red,
                   ),
@@ -54,7 +82,7 @@ class HomePage extends ConsumerWidget {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () => notifier.recognizeNumber(),
+                  onPressed: () => drawStateNotifier.recognizeNumber(),
                   child: const Text('判定'),
                 ),
               ],
