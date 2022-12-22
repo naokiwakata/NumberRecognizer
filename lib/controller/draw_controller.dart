@@ -7,8 +7,8 @@ import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import '../entity/draw_state.dart';
-import '../entity/line.dart';
+import '../model/draw_state.dart';
+import '../model/line.dart';
 
 final drawStateNotifierProvider =
     StateNotifierProvider<DrawStateNotifier, DrawState>(
@@ -81,6 +81,8 @@ class DrawStateNotifier extends StateNotifier<DrawState> {
       final base64Image = base64Encode(img.toList());
       final url = Uri.parse('http://127.0.0.1:5000/recognize_number');
       final headers = {'content-type': 'application/json'};
+
+      int number = 1;
 
       final body = json.encode({
         'post_img': base64Image,

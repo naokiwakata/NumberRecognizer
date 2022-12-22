@@ -1,4 +1,4 @@
-import 'package:digit_recognition/entity/line.dart';
+import 'package:digit_recognition/model/line.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'draw_state.freezed.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../entity/draw_state.dart';
+import '../model/draw_state.dart';
 
 class Signature extends CustomPainter {
   Signature(this.state, this.context);
