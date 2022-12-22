@@ -54,7 +54,7 @@ class HomePage extends ConsumerWidget {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () => notifier.recognizeNumber(key),
+                  onPressed: () => notifier.recognizeNumber(),
                   child: const Text('判定'),
                 ),
               ],

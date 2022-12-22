@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:digit_recognition/view/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,11 +13,13 @@ import '../model/line.dart';
 
 final drawStateNotifierProvider =
     StateNotifierProvider<DrawStateNotifier, DrawState>(
-  (ref) => DrawStateNotifier(),
+  (ref) => DrawStateNotifier(ref),
 );
 
 class DrawStateNotifier extends StateNotifier<DrawState> {
-  DrawStateNotifier() : super(DrawState());
+  DrawStateNotifier(this.ref) : super(DrawState());
+
+  final Ref ref;
 
   // 数字をクリアする
   void clear() {
@@ -75,14 +78,13 @@ class DrawStateNotifier extends StateNotifier<DrawState> {
   }
 
   // 画像をPython側に送り数字を判別
-  Future<void> recognizeNumber(GlobalKey globalKey) async {
-    final img = await widgetToImage(globalKey);
+  Future<void> recognizeNumber() async {
+    final key = ref.watch(widgetToImageKeyProvider);
+    final img = await widgetToImage(key);
     if (img != null) {
       final base64Image = base64Encode(img.toList());
       final url = Uri.parse('http://127.0.0.1:5000/recognize_number');
       final headers = {'content-type': 'application/json'};
-
-      int number = 1;
 
       final body = json.encode({
         'post_img': base64Image,
