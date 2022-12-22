@@ -1,4 +1,4 @@
-import 'package:digit_recognition/presentation/home.dart';
+import 'package:digit_recognition/view/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
