@@ -10,6 +10,11 @@ final widgetToImageKeyProvider = Provider(
   (_) => GlobalKey(),
 );
 
+/// スナックバー表示用のGlobalKey
+final scaffoldMessengerKeyProvider = Provider(
+  (_) => GlobalKey<ScaffoldMessengerState>(),
+);
+
 class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -39,13 +44,19 @@ class HomePage extends ConsumerWidget {
         // ローディング終了
         ref.watch(loadingStateProvider.notifier).update((state) => false);
 
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("判別終了！"),
+        // スナックバー表示
+        final messengerState =
+            ref.read(scaffoldMessengerKeyProvider).currentState;
+        messengerState?.showSnackBar(const SnackBar(
+          content: Text("判別終了！合ってるかな？"),
         ));
       }, error: (e, st) {
         // ローディング終了
         ref.watch(loadingStateProvider.notifier).update((state) => false);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        // スナックバー表示
+        final messengerState =
+            ref.read(scaffoldMessengerKeyProvider).currentState;
+        messengerState?.showSnackBar(const SnackBar(
           content: Text("エラーだよ。失敗したみたい。"),
         ));
       }, loading: () {

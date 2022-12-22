@@ -88,9 +88,13 @@ class DrawStateNotifier extends StateNotifier<DrawState> {
     // 判別を実行
     // guardメソッドについて（https://zenn.dev/shintykt/articles/f9948ac00c7296）
     notifier.state = await AsyncValue.guard(() async {
+      // 1秒待って判別してる感を出す
+      await Future.delayed(const Duration(seconds: 1));
+      // 判別
       final key = ref.watch(widgetToImageKeyProvider);
       final img = await widgetToImage(key);
       if (img != null) {
+        // Widgetの画像をサーバーに送る
         final base64Image = base64Encode(img.toList());
         final url = Uri.parse('http://127.0.0.1:5000/recognize_number');
         final headers = {'content-type': 'application/json'};
@@ -105,7 +109,7 @@ class DrawStateNotifier extends StateNotifier<DrawState> {
           state = state.copyWith(predictedNumber: predictedNumber);
           debugPrint('予測結果は $predictedNumber} じゃけえ');
         } else {
-          debugPrint(response.statusCode.toString());
+          throw Error();
         }
       }
     });
