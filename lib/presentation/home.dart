@@ -4,12 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../controller/draw_controller.dart';
 import 'number_card.dart';
 
-const _textStyle = TextStyle(
-  fontSize: 30,
-);
-const _numberStyle = TextStyle(
-  fontSize: 50,
-  fontWeight: FontWeight.bold,
+// Widgetを画像に変換する用のGlobalKey
+final widgetToImageKeyProvider = Provider(
+  (_) => GlobalKey(),
 );
 
 class HomePage extends ConsumerWidget {
@@ -17,9 +14,17 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final globalKey = GlobalKey();
+    final key = ref.watch(widgetToImageKeyProvider);
     final notifier = ref.watch(drawStateNotifierProvider.notifier);
     final state = ref.watch(drawStateNotifierProvider);
+
+    const textStyle = TextStyle(
+      fontSize: 30,
+    );
+    const numberStyle = TextStyle(
+      fontSize: 50,
+      fontWeight: FontWeight.bold,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -29,12 +34,12 @@ class HomePage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('おめえが書いた数字は', style: _textStyle),
-            Text(state.predictedNumber.toString(), style: _numberStyle),
-            const Text('だろ？', style: _textStyle),
+            const Text('おめえが書いた数字は', style: textStyle),
+            Text(state.predictedNumber.toString(), style: numberStyle),
+            const Text('だろ？', style: textStyle),
             const SizedBox(height: 30),
             //
-            NumberCard(globalKey: globalKey),
+            const NumberCard(),
             //
             const SizedBox(height: 30),
             Row(
@@ -49,7 +54,7 @@ class HomePage extends ConsumerWidget {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () => notifier.recognizeNumber(globalKey),
+                  onPressed: () => notifier.recognizeNumber(key),
                   child: const Text('判定'),
                 ),
               ],

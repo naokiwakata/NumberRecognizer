@@ -1,3 +1,4 @@
+import 'package:digit_recognition/presentation/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,10 +8,8 @@ import 'signature.dart';
 class NumberCard extends ConsumerWidget {
   const NumberCard({
     Key? key,
-    required this.globalKey,
   }) : super(key: key);
 
-  final GlobalKey globalKey;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(drawStateNotifierProvider);
@@ -39,7 +38,7 @@ class NumberCard extends ConsumerWidget {
         },
         // Widget画像化の記事（https://zenn.dev/pressedkonbu/books/flutter-reverse-lookup-dictionary/viewer/011-widget-to-image）
         child: RepaintBoundary(
-          key: globalKey,
+          key: ref.watch(widgetToImageKeyProvider),
           child: Card(
             elevation: 10,
             // shape:
