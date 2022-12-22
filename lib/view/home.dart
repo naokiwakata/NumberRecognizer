@@ -1,4 +1,5 @@
 import 'package:digit_recognition/controller/state_providers.dart';
+import 'package:digit_recognition/extension/widget_ref_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -30,40 +31,15 @@ class HomePage extends ConsumerWidget {
       fontSize: 50,
       fontWeight: FontWeight.bold,
     );
-
-    // 判別状態をハンドリング
-    ref.listen<AsyncValue<void>>(recognizeStateProvider,
-        ((previous, next) async {
-      if (next.isLoading) {
-        // ローディング開始
-        ref.watch(loadingStateProvider.notifier).update((state) => true);
-        return;
-      }
-
-      next.when(data: (_) {
-        // ローディング終了
-        ref.watch(loadingStateProvider.notifier).update((state) => false);
-
-        // スナックバー表示
-        final messengerState =
-            ref.read(scaffoldMessengerKeyProvider).currentState;
-        messengerState?.showSnackBar(const SnackBar(
-          content: Text("判別終了！合ってるかな？"),
-        ));
-      }, error: (e, st) {
-        // ローディング終了
-        ref.watch(loadingStateProvider.notifier).update((state) => false);
-        // スナックバー表示
-        final messengerState =
-            ref.read(scaffoldMessengerKeyProvider).currentState;
-        messengerState?.showSnackBar(const SnackBar(
-          content: Text("エラーだよ。失敗したみたい。"),
-        ));
-      }, loading: () {
-        // ローディング開始
-        ref.watch(loadingStateProvider.notifier).update((state) => true);
-      });
-    }));
+    // ログイン結果をハンドリングする
+    ref.handleAsyncValue<void>(
+      recognizeStateProvider,
+      completeMessage: '処理が完了しました！合ってるかな？',
+      errorMessage: "エラー発生。通信失敗しちゃったみたい",
+      complete: (context, _) async {
+        // 処理完了後に任意の処理をする
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(
